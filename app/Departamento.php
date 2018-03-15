@@ -14,6 +14,7 @@ class Departamento extends Model
    * @var string
    */
   protected $table = 'departamentos';
+  protected $primary_key = "id";
 
   /**
    * Fields that can be mass assigned.
@@ -33,13 +34,13 @@ class Departamento extends Model
   protected $dates = ['deleted_at'];
 
   /**
-   * Departamento has many Departemento.
+   * Departamento has many Producto.
    *
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
-  public function departemento()
+  public function producto()
   {
     // hasMany(RelatedModel, foreignKeyOnRelatedModel = departamento_id, localKey = id)
-    return $this->hasMany(Departamento::class);
+    return $this->hasMany(Producto::class);
   }
 }

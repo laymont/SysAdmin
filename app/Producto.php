@@ -14,6 +14,7 @@ class Producto extends Model
    * @var string
    */
   protected $table = 'productos';
+  protected $primary_key = "id";
 
   /**
    * Fields that can be mass assigned.
@@ -33,13 +34,13 @@ class Producto extends Model
   protected $dates = ['deleted_at'];
 
   /**
-   * Producto belongs to Departamento.
+   * Producto belongs to Depar.
    *
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
    */
   public function departamento()
   {
-    // belongsTo(RelatedModel, foreignKey = departamento_id, keyOnRelatedModel = id)
+    // belongsTo(RelatedModel, foreignKey = depar_id, keyOnRelatedModel = id)
     return $this->belongsTo(Departamento::class);
   }
 
@@ -53,5 +54,4 @@ class Producto extends Model
     // belongsTo(RelatedModel, foreignKey = marca_id, keyOnRelatedModel = id)
     return $this->belongsTo(Marca::class);
   }
-
 }

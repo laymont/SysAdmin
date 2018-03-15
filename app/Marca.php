@@ -14,6 +14,7 @@ class Marca extends Model
    * @var string
    */
   protected $table = 'marcas';
+  protected $primary_key = "id";
 
   /**
    * Fields that can be mass assigned.
@@ -33,13 +34,13 @@ class Marca extends Model
   protected $dates = ['deleted_at'];
 
   /**
-   * Marca has many Marca.
+   * Marca has many Producto.
    *
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
-  public function marca()
+  public function producto()
   {
     // hasMany(RelatedModel, foreignKeyOnRelatedModel = marca_id, localKey = id)
-    return $this->hasMany(App\Marca::class);
+    return $this->hasMany(Producto::class);
   }
 }

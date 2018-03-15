@@ -11,8 +11,10 @@
 
 <div class="container-fluid">
   <div class="row justify-content-center">
+    <div id="toolbar"></div>
     <div class="col-md-12">
-      <table id="productos_lista" class="table table-bordered table-striped datatables" cellspacing="0">
+
+      <table id="productos_lista" class="table table-bordered table-striped datatables" cellspacing="0" data-page-length="25">
         <caption>Listado de Produtos</caption>
         <thead>
           <tr>
@@ -29,7 +31,7 @@
         <tbody>
           @foreach ($productos as $element)
           <tr>
-            <td>{{ $element->departamento['nombre'] }}</td>
+            <td>{{ $element->departamento->nombre }}</td>
             <td>
               @if ($element->exento > 0)
               <i class="fas fa-cart-arrow-down text-warning" title="Exento"></i>
@@ -42,7 +44,7 @@
             <td>{{ $element->min }}</td>
             <td>{{ $element->max }}</td>
             <td>
-              <a class="btn btn-sm btn-warning" href="{{ route('productos.edit', ['cliente' => $element->id]) }}" title="Editar"> <i class="fas fa-edit"></i></a>
+              <a class="btn btn-sm btn-warning" href="{{ route('productos.edit', ['id' => $element->id]) }}" title="Editar"> <i class="fas fa-edit"></i></a>
               {!! Form::open([
                 'method'=>'DELETE',
                 'url' => ['productos', $element->id],
@@ -65,6 +67,15 @@
 
     $(document).ready(function(){
       oTable = $('#productos_lista').DataTable({
+        dom: '<"toolbar">Bfrtip',
+        buttons: [
+        'pageLength', 'excel', 'pdf',
+        {
+          extend: 'print',
+          text: 'Imprimir'
+        }
+        ],
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "pagingType": "full_numbers",
         "language": {
           "decimal": ",",
@@ -91,14 +102,9 @@
             "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
           }
-        },
-        dom: 'Bfrtip',
-        buttons: [
-        'excel', 'pdf', 'print', 'colvis'
-        ]
+        }
       });
-      table.buttons().container()
-      .appendTo( '#example_wrapper .col-md-6:eq(0)' );
     });
+
   </script>
   @endsection

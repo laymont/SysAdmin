@@ -6,6 +6,9 @@ use App\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Alert;
+use App\Departamento;
+use App\Marca;
+
 
 class ProductoController extends Controller
 {
@@ -16,7 +19,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-      $productos = Producto::all();
+      $productos = Producto::with('departamento:id,nombre','marca:id,nombre')->get();
+
       return view('productos.index', compact('productos'));
     }
 
@@ -60,7 +64,11 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        //
+      $productos = Producto::findOrFail($producto->id);
+      $departamentos = Departamento::pluck('nombre','id');
+      $marcas = Marca::pluck('nombre','id');
+
+      return view('productos.edit', compact('productos','departamentos','marcas'));
     }
 
     /**
@@ -72,7 +80,18 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+      $validatedData = $request->validate([
+        'deparmento_id' => 'required',
+        'nombre' => 'required|min:4',
+        'marca_id' => 'required',
+        'presentacion' => 'required',
+        'descripcion' => 'nullable',
+        'exento' => 'required',
+        'min' => 'required|min:1',
+        'max' => 'required|min:1'
+      ]);
+
+      dd($request->all());
     }
 
     /**
