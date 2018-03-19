@@ -25,7 +25,7 @@
         <div class="form-group row">
           <label for="staticCompra" class="col-sm-2 col-form-label">Compra Nº: </label>
           <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="staticCompra" value="{{ sprintf("%'.06d\n", $compra->first()->id) }}">
+            <input type="text" readonly class="form-control-plaintext text-danger" id="staticCompra" value="{{ sprintf("%'.06d\n", $compra->first()->id) }}">
           </div>
         </div>
         <div class="form-group row">
@@ -83,7 +83,11 @@
         @foreach ($detalles as $element)
         <tr>
           <td class="text-center">{{ $element->cantidad }}</td>
-          <td class="text-left text-uppercase">{{ $element->producto->nombre }}</td>
+          <td class="text-left text-uppercase">
+            {{ $element->producto->nombre }}
+            <br>
+            <small><strong>{{ $element->producto->marca->nombre }}</strong> | {{ $element->producto->presentacion }}</small>
+          </td>
           <td class="moneda">{{ number_format($element->costo,2,",",".") }}</td>
           <td class="moneda">{{ number_format($sub[] = ($element->cantidad * $element->costo),2,",",".") }}</td>
         </tr>

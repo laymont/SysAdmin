@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class CompraController extends Controller
 {
+  /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+      $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +25,6 @@ class CompraController extends Controller
     public function index()
     {
       $compras = Compra::with('proveedor:id,nombre')->get()->sortByDesc('fecha');
-
-
       return view('compras.index', compact('compras'));
     }
 
@@ -117,6 +125,11 @@ class CompraController extends Controller
      */
     public function destroy(Compra $compra)
     {
+      $detalles = \App\Compra_detalle::findOrFail($compra->id);
+      if ($detalles->count() > 0) {
+        alert()->error('No se puede eliminar una compra que posee registros en el Inventario','Imposible Eliminar')->autoclose('5000');
+        return redirect('compras');
+      }
       $eliminar = Compra::findOrFail($compra->id);
       $eliminar->delete();
       alert()->success('Operación exitosa', 'Registro eliminado')->autoclose(2000);

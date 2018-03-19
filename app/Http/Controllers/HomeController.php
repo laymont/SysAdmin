@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+      $this->middleware('auth');
     }
 
     /**
@@ -21,8 +21,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+      $request->user()->authorizeRoles(['user', 'admin']);
+
+      return view('home');
     }
-}
+
+    /*
+    public function someAdminStuff(Request $request)
+    {
+      $request->user()->authorizeRoles(‘admin’);
+
+      return view(‘some.view’);
+    }
+    */
+  }

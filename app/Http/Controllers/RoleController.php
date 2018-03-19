@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Departamento;
-use Illuminate\Validation\Rule;
-use Alert;
 
-
-class DepartamentoController extends Controller
+class RoleController extends Controller
 {
-
   /**
      * Create a new controller instance.
      *
@@ -21,7 +16,6 @@ class DepartamentoController extends Controller
       $this->middleware('auth');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -29,8 +23,7 @@ class DepartamentoController extends Controller
      */
     public function index()
     {
-      $departamentos = Departamento::all();
-      return view('departamentos.index', compact('departamentos'));
+        //
     }
 
     /**
@@ -40,7 +33,7 @@ class DepartamentoController extends Controller
      */
     public function create()
     {
-      return view('departamentos.create');
+        //
     }
 
     /**
@@ -51,14 +44,7 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-      $validatedData = $request->validate([
-        'nombre' => 'required|min:4',
-        'descripcion' => 'nullable',
-      ]);
-
-      Departamento::insert($request->except(['_token']));
-      alert()->success('Operación exitosa', 'Registro ingresado')->autoclose(30000);
-      return redirect('departamentos');
+        //
     }
 
     /**
@@ -80,8 +66,7 @@ class DepartamentoController extends Controller
      */
     public function edit($id)
     {
-      $departamento = Departamento::findOrFail($id);
-      return view('departamentos.edit', compact('departamento'));
+        //
     }
 
     /**
@@ -93,15 +78,7 @@ class DepartamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $validatedData = $request->validate([
-        'nombre' => 'required|min:4',
-        'descripcion' => 'nullable',
-      ]);
-
-      $departamento = Departamento::findOrFail($id);
-      $departamento->update($request->all());
-      alert()->success('Operación exitosa', 'Registro actualizado');
-      return redirect('departamentos');
+        //
     }
 
     /**
@@ -114,4 +91,4 @@ class DepartamentoController extends Controller
     {
         //
     }
-  }
+}

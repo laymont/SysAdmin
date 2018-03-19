@@ -31,4 +31,15 @@ class Cliente extends Model
      * @var array
     */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Cliente has many Factura.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function factura()
+    {
+      // hasMany(RelatedModel, foreignKeyOnRelatedModel = cliente_id, localKey = id)
+      return $this->hasMany(Factura::class);
+    }
   }

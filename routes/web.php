@@ -17,6 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resource('/usuarios','UserController');
+Route::resource('/usuarios/roles','RoleController');
+
 Route::get('/home', 'HomeController@index')->name('home');
 /* Clientes */
 Route::resource('/clientes','ClienteController');
@@ -43,4 +46,7 @@ Route::get('/inventarios/precios','AdminController@listaprecios')->name('inventa
 
 /* Admin */
 Route::get('toinv/{compra_id}','AdminController@toinv')->name('toinv');
+
+/* Servidores */
+Route::resource('/servidores','ServidoreController');
 

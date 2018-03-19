@@ -11,6 +11,17 @@ use Alert;
 
 class CompraDetalleController extends Controller
 {
+
+  /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
+
     /**
      * Display a listing of the resource.
      *
@@ -128,13 +139,13 @@ class CompraDetalleController extends Controller
       for ($i = 0; $i < count($inputs['id']) ; $i++) {
 
         $registro[] = [
-            'id' => $inputs['id'][$i],
-            'compra_id' => $inputs['compra_id'][$i],
-            'producto_id' => $inputs['producto_id'][$i],
-            'lote' => $inputs['lote'][$i],
-            'vence' => $inputs['vence'][$i],
-            'cantidad' => $inputs['cantidad'][$i],
-            'costo' => $inputs['costo'][$i]
+          'id' => $inputs['id'][$i],
+          'compra_id' => $inputs['compra_id'][$i],
+          'producto_id' => $inputs['producto_id'][$i],
+          'lote' => $inputs['lote'][$i],
+          'vence' => $inputs['vence'][$i],
+          'cantidad' => $inputs['cantidad'][$i],
+          'costo' => $inputs['costo'][$i]
         ];
       }
 

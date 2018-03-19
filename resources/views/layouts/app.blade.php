@@ -39,6 +39,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
   {{-- Sweet-Alert --}}
   @include('sweet::alert')
   <div id="app">
+
     <nav id="main-menu" class="navbar navbar-expand-md navbar-light navbar-laravel">
       <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -49,6 +50,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          @if(Auth::user())
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -156,20 +158,24 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
                     <li><a class="dropdown-item" href="#"> Por Cobrar</a></li>
                   </ul>
                 </li>
-                <li class="dropdown-divider"></li>
                 {{-- Usuarios --}}
+                @if ( Auth::user()->usersUp(['admin','superuser']) )
+                <li class="dropdown-divider"></li>
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Usuarios</a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Nuevo</a></li>
                     <li><a class="dropdown-item" href="#"> Listado</a></li>
+                    <li><a class="dropdown-item" href="#">Nuevo</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ route('roles.index') }}">Roles</a></li>
                   </ul>
                 </li>
+                @endif
                 <li class="dropdown-divider"></li>
                 {{-- Servidores --}}
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Servidores</a>
                   <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ route('servidores.index') }}"> Listado</a></li>
                     <li><a class="dropdown-item" href="#">Nuevo</a></li>
-                    <li><a class="dropdown-item" href="#"> Listado</a></li>
                   </ul>
                 </li>
               </ul>
@@ -194,13 +200,13 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
               </ul>
             </li>
           </ul>
-
+          @endif
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
             @guest
             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+            {{-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li> --}}
             @else
             <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
