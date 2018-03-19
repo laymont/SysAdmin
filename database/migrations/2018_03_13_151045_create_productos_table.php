@@ -21,6 +21,7 @@ class CreateProductosTable extends Migration
             $table->string('presentacion');
             $table->string('descripcion')->nullable();
             $table->tinyInteger('exento')->default(0);
+            $table->tinyInteger('servicio')->default(0);
             $table->integer('min');
             $table->integer('max');
             $table->timestamps();

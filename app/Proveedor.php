@@ -31,4 +31,15 @@ class Proveedor extends Model
   * @var array
   */
   protected $dates = ['deleted_at'];
+
+  /**
+   * Proveedor has many Compras.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function compras()
+  {
+    // hasMany(RelatedModel, foreignKeyOnRelatedModel = proveedor_id, localKey = id)
+    return $this->hasMany(Compra::class);
+  }
 }

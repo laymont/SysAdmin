@@ -1,78 +1,75 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <h3> Productos </h3>
+      <h3> Lista de Precios </h3>
     </div>
   </div>
 </div>
 
 <div class="container-fluid">
   <div class="row justify-content-center">
-    <div id="toolbar"></div>
     <div class="col-md-12">
-      {{-- Bar --}}
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('productos.create') }}"><i class="fas fa-plus-square"></i> Nuevo Productos</a>
-        </li>
-      </ul>
-
-      <table id="productos_lista" class="table table-bordered table-striped datatables" cellspacing="0" data-page-length="25">
-        <caption>Listado de Produtos</caption>
+      @if ($precios->count() > 0)
+      <div id="toolbar"></div>
+      <table id="precios" class="table table-bordered table-striped datatables"  cellspacing="0" data-page-length="25">
+        <caption>Inventarios</caption>
         <thead>
           <tr>
-            <th>Departamento</th>
+            <th>Compra</th>
             <th>Producto</th>
-            <th>Marca</th>
-            <th>Presentación</th>
-            <th>Descripción</th>
-            <th>Cant/Min</th>
-            <th>Cant/Max</th>
-            <th></th>
+            <th>Lote</th>
+            <th>Vence</th>
+            <th>Cantidad</th>
+            {{-- <th>Costo</th> --}}
+            <th>Base 1</th>
+            <th>Base 2</th>
+            <th>Base 3</th>
+            <th>Ubicación</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          @foreach ($productos as $element)
+          @foreach ($precios as $element)
           <tr>
-            <td>{{ @$element->departamento->nombre }}</td>
+            <td> {{ $element->compra_id }}</td>
+            <td> {{ $element->producto->nombre }}</td>
+            <td class="text-center"> {{ $element->lote }}</td>
+            <td class="text-center"> {{ $element->vence }}</td>
+            <td class="text-center"> {{ $element->cantidad }}</td>
+            {{-- <td class="text-right"> {{ number_format($element->costo,2,",",".") }}</td> --}}
+            <td class="text-center"> {{ number_format( (($element->base1 + 1) * $element->costo),2,",","." ) }}</td>
+            <td class="text-center"> {{ number_format( (($element->base2 + 1) * $element->costo),2,",","." ) }}</td>
+            <td class="text-center"> {{ number_format( (($element->base3 + 1) * $element->costo),2,",","." ) }}</td>
+            <td class="text-center"> {{ $element->ubicacion }}</td>
             <td>
-              @if ($element->exento > 0)
-              <i class="fas fa-cart-arrow-down text-warning" title="Exento"></i>
-              @endif
-              {{ $element->nombre }}
+              <a class="btn btn-sm btn-primary" href="#" title="Ajuste"><i class="fas fa-cog"></i></a>
             </td>
-            <td>{{ @$element->marca->nombre }}</td>
-            <td>{{ $element->presentacion }}</td>
-            <td>{{ $element->descripcion }}</td>
-            <td>{{ $element->min }}</td>
-            <td>{{ $element->max }}</td>
-            <td>
-              <a class="btn btn-sm btn-warning" href="{{ route('productos.edit', ['id' => $element->id]) }}" title="Editar"> <i class="fas fa-edit"></i></a>
-              {!! Form::open([
-                'method'=>'DELETE',
-                'url' => ['productos', $element->id],
-                'style' => 'display:inline',
-                'onsubmit' => 'return confirm("Realmente desea eliminar este Registro");'
-                ]) !!}
-                {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm'] )  }}
-                {!! Form::close() !!}
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+      @else
+      <div class="alert alert-info col-md-4">
+        <h3 class="text-info">Sin Información</h3>
+        <p class="text-info">Aun no hay productos en el Inventario.<br>Si posee Compras debe antes ingresarlas en el Inventario</p>
       </div>
+      @endif
+
     </div>
   </div>
-  @endsection
-  @section('scripts')
+</div>
+
+@endsection
+
+@section('scripts')
   <script>
 
     $(document).ready(function(){
-      oTable = $('#productos_lista').DataTable({
+      oTable = $('#precios').DataTable({
         dom: '<"toolbar">Bfrtip',
         buttons: [
         'pageLength', 'excel', 'pdf',

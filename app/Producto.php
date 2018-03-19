@@ -21,7 +21,7 @@ class Producto extends Model
    *
    * @var array
    */
-  protected $fillable = ['departamento_id','nombre','marca_id','presentacion','descripcion','exento','min','max'];
+  protected $fillable = ['departamento_id','nombre','marca_id','presentacion','descripcion','exento','servicio','min','max'];
 
   protected $guarded = ['id'];
 
@@ -53,5 +53,26 @@ class Producto extends Model
   {
     // belongsTo(RelatedModel, foreignKey = marca_id, keyOnRelatedModel = id)
     return $this->belongsTo(Marca::class);
+  }
+
+  /**
+   * Producto has many Compra_detalle.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function compra_detalle()
+  {
+    // hasMany(RelatedModel, foreignKeyOnRelatedModel = producto_id, localKey = id)
+    return $this->hasMany(Compra_detalle::class);
+  }
+  /**
+   * Producto has many Inventario.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function inventario()
+  {
+    // hasMany(RelatedModel, foreignKeyOnRelatedModel = producto_id, localKey = id)
+    return $this->hasMany(Inventario::class);
   }
 }

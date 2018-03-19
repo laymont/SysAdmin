@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <h3> Productos </h3>
+      <h3> Compras <small>Detalles</small> </h3>
     </div>
   </div>
 </div>
@@ -16,46 +16,40 @@
       {{-- Bar --}}
       <ul class="nav nav-pills">
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('productos.create') }}"><i class="fas fa-plus-square"></i> Nuevo Productos</a>
+          <a class="nav-link" href="{{ route('compras_detalles.create') }}"><i class="fas fa-plus-square"></i> Nueva Compras</a>
         </li>
       </ul>
 
-      <table id="productos_lista" class="table table-bordered table-striped datatables" cellspacing="0" data-page-length="25">
-        <caption>Listado de Produtos</caption>
+      <table id="detales_lista" class="table table-bordered table-striped datatables" cellspacing="0" data-page-length="25">
+        <caption>Listado de compras</caption>
         <thead>
           <tr>
-            <th>Departamento</th>
+            <th>Compra</th>
             <th>Producto</th>
-            <th>Marca</th>
-            <th>Presentación</th>
-            <th>Descripción</th>
-            <th>Cant/Min</th>
-            <th>Cant/Max</th>
+            <th>Lote</th>
+            <th>Vence</th>
+            <th>Cantidad</th>
+            <th>Costo</th>
+            <th>Inventario</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          @foreach ($productos as $element)
+          @foreach ($detalles as $element)
           <tr>
-            <td>{{ @$element->departamento->nombre }}</td>
+            <td>{{ @$element->compra_id }}</td>
+            <td>{{ @$element->producto->nombre }}</td>
+            <td>{{ $element->lote }}</td>
+            <td>{{ $element->vence }}</td>
+            <td>{{ $element->cantidad }}</td>
+            <td>{{ $element->costo }}</td>
+            <td>{{ $element->inventario }}</td>
             <td>
-              @if ($element->exento > 0)
-              <i class="fas fa-cart-arrow-down text-warning" title="Exento"></i>
-              @endif
-              {{ $element->nombre }}
-            </td>
-            <td>{{ @$element->marca->nombre }}</td>
-            <td>{{ $element->presentacion }}</td>
-            <td>{{ $element->descripcion }}</td>
-            <td>{{ $element->min }}</td>
-            <td>{{ $element->max }}</td>
-            <td>
-              <a class="btn btn-sm btn-warning" href="{{ route('productos.edit', ['id' => $element->id]) }}" title="Editar"> <i class="fas fa-edit"></i></a>
+              <a class="btn btn-sm btn-secondary" href="{{ route('compras_detalles.edit', ['id' => $element->id]) }}" title="Editar"> <i class="fas fa-edit"></i></a>
               {!! Form::open([
                 'method'=>'DELETE',
-                'url' => ['productos', $element->id],
-                'style' => 'display:inline',
-                'onsubmit' => 'return confirm("Realmente desea eliminar este Registro");'
+                'url' => ['compras_detalles', $element->id],
+                'style' => 'display:inline'
                 ]) !!}
                 {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm'] )  }}
                 {!! Form::close() !!}
@@ -71,9 +65,11 @@
   @section('scripts')
   <script>
 
+
     $(document).ready(function(){
-      oTable = $('#productos_lista').DataTable({
+      oTable = $('#detales_lista').DataTable({
         dom: '<"toolbar">Bfrtip',
+        "order": [[ 0, "desc" ]],
         buttons: [
         'pageLength', 'excel', 'pdf',
         {

@@ -31,7 +31,9 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+      $departamentos = Departamento::pluck('nombre','id');
+      $marcas = Marca::pluck('nombre','id');
+      return view('productos.create', compact('departamentos','marcas'));
     }
 
     /**
@@ -42,7 +44,20 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $validar = $request->validate([
+        'departamento_id' => 'bail|required',
+        'nombre' => 'bail|required|unique:productos',
+        'marca_id' => 'bail|required',
+        'presentacion' => 'bail|required',
+        'descripcion' => 'nullable',
+        'exento' => 'required',
+        'min' => 'required|min:1',
+        'max' => 'required|min:1'
+      ]);
+      $producto = Producto::create($request->except('_token'));
+      alert()->success('Operacion exitosa','Registro Creado');
+      return redirect('/productos');
+
     }
 
     /**
@@ -81,17 +96,16 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
       $validatedData = $request->validate([
-        'deparmento_id' => 'required',
-        'nombre' => 'required|min:4',
-        'marca_id' => 'required',
-        'presentacion' => 'required',
-        'descripcion' => 'nullable',
-        'exento' => 'required',
-        'min' => 'required|min:1',
-        'max' => 'required|min:1'
+        'nombre' => 'bail|required|min:4',
+        'presentacion' => 'bail|required',
+        'min' => 'bail|required|min:1',
+        'max' => 'bail|required|min:1'
       ]);
 
-      dd($request->all());
+      $update = Producto::findOrFail($producto->id);
+      $update->update($request->all());
+      alert()->success('Operacion exitosa', 'Registro actualizado');
+      return redirect('productos');
     }
 
     /**
@@ -107,4 +121,4 @@ class ProductoController extends Controller
       alert()->success('Operación exitosa', 'Registro eliminado');
       return redirect('productos');
     }
-}
+  }
