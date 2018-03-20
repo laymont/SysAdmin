@@ -159,17 +159,17 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
                   </ul>
                 </li>
                 {{-- Usuarios --}}
-                @if ( Auth::user()->usersUp(['admin','superuser']) )
+
                 <li class="dropdown-divider"></li>
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Usuarios</a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#"> Listado</a></li>
+                    <li><a class="dropdown-item" href="{{ route('usuarios.index') }}"> Listado</a></li>
                     <li><a class="dropdown-item" href="#">Nuevo</a></li>
                     <li class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="{{ route('roles.index') }}">Roles</a></li>
                   </ul>
                 </li>
-                @endif
+
                 <li class="dropdown-divider"></li>
                 {{-- Servidores --}}
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Servidores</a>

@@ -14,9 +14,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-      'name', 'email', 'password',
-    ];
+    protected $fillable = ['name', 'email', 'password',];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -25,6 +23,7 @@ class User extends Authenticatable
      */
     protected $hidden = ['password', 'remember_token',];
 
+
     public function authorizeRoles($roles)
     {
       if ($this->hasAnyRole($roles)) {
@@ -32,6 +31,7 @@ class User extends Authenticatable
       }
       abort(401, 'Esta acción no está autorizada.');
     }
+
 
     public function hasAnyRole($roles)
     {
@@ -48,6 +48,8 @@ class User extends Authenticatable
       }
       return false;
     }
+
+
     /* hasRole */
     public function hasRole($role)
     {
@@ -56,26 +58,6 @@ class User extends Authenticatable
       }
       return false;
     }
-
-    public function usersUp($roles)
-    {
-      if (is_array($roles)) {
-        foreach ($roles as $value) {
-          if($this->roles()->where('name', $value)->get()){
-            return true;
-          }else {
-            return false;
-          }
-        }
-      }else {
-        if($this->roles()->where('name', $roles)->get()){
-          return true;
-        }else {
-          return false;
-        }
-      }
-    }
-
 
     public function roles()
     {
