@@ -36,14 +36,14 @@
           @foreach ($precios as $element)
           <tr>
             <td> {{ $element->compra_id }}</td>
-            <td> {{ $element->producto->nombre }}</td>
+            <td> {{ @$element->producto->nombre }}</td>
             <td class="text-center"> {{ $element->lote }}</td>
             <td class="text-center"> {{ $element->vence }}</td>
             <td class="text-center"> {{ $element->cantidad }}</td>
             {{-- <td class="text-right"> {{ number_format($element->costo,2,",",".") }}</td> --}}
-            <td class="text-center"> {{ number_format( (($element->base1 + 1) * $element->costo),2,",","." ) }}</td>
-            <td class="text-center"> {{ number_format( (($element->base2 + 1) * $element->costo),2,",","." ) }}</td>
-            <td class="text-center"> {{ number_format( (($element->base3 + 1) * $element->costo),2,",","." ) }}</td>
+            <td class="moneda"> {{ number_format( (($element->base1 + 1) * $element->costo),2,",","." ) }}</td>
+            <td class="moneda"> {{ number_format( (($element->base2 + 1) * $element->costo),2,",","." ) }}</td>
+            <td class="moneda"> {{ number_format( (($element->base3 + 1) * $element->costo),2,",","." ) }}</td>
             <td class="text-center"> {{ $element->ubicacion }}</td>
             <td>
               <a class="btn btn-sm btn-primary" href="#" title="Ajuste"><i class="fas fa-cog"></i></a>
@@ -71,6 +71,7 @@
     $(document).ready(function(){
       oTable = $('#precios').DataTable({
         dom: '<"toolbar">Bfrtip',
+        "order": [[ 1, "asc" ]],
         buttons: [
         'pageLength', 'excel', 'pdf',
         {

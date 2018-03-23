@@ -9,6 +9,16 @@ use DB;
 
 class AdminController extends Controller
 {
+  /**
+  * Create a new controller instance.
+  *
+  * @return void
+  */
+  public function __construct()
+  {
+    $this->middleware('auth:web');
+  }
+
   /* Mover compra a Inventario */
   public function toinv($compra_id)
   {
@@ -24,7 +34,15 @@ class AdminController extends Controller
 
   public function listaprecios()
   {
-    $precios = \App\Inventario::with('producto:id,nombre')->get();
+    $precios = \App\Inventario::with('producto:id,nombre')
+    ->where('cantidad','>',0)
+    ->get();
     return view('inventarios.precios', compact('precios'));
+  }
+
+  public function ctasPagarTotal()
+  {
+    $ctapagar = \App\Compra::where('pago',0)->get()->sortByDesc('fecha');
+    return view('admins/ctapagar/index', compact('ctapagar'));
   }
 }

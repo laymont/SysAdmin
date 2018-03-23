@@ -1,0 +1,48 @@
+por pagar - fechapago
+por cobrar - fechapago
+
+/* Mover datos a SysAdmin (clientes) */
+INSERT clientes(id,rif,nombre,direccion,telefono,email,created_at)
+SELECT codigo as id, rif, nombre,direccion,telefono,correo as email, current_timestamp()
+FROM biosumipowerusco_BSPCntrl.clientes
+
+/* Mover datos a SysAdmin (proveedores) */
+INSERT proveedores(id,rif,nombre,direccion,telefono,email,created_at)
+SELECT codigo as id, rif, nombre,direccion,telefono,correo as email, current_timestamp()
+FROM biosumipowerusco_BSPCntrl.proveedores
+
+/* Mover datos SysAdmin (departamentos) */
+INSERT departamentos(id,nombre,descripcion,created_at)
+SELECT codigo as id, nombre, descripcion, current_timestamp()
+FROM biosumipowerusco_BSPCntrl.departamentos
+
+/* Mover datos SysAdmin (marcas) */
+INSERT marcas(id,nombre,created_at)
+SELECT codigo as id, nombre, current_timestamp()
+FROM biosumipowerusco_BSPCntrl.marcas
+
+/* Mover datos SysAdmin (marcas) */
+SELECT codigo AS id, dpto AS departamento_id, producto AS nombre, marca AS marca_id, presentacion, descripcion, excento AS exento,`min`, `max`, CURRENT_TIMESTAMP()
+FROM biosumipowerusco_BSPCntrl.productos
+UPDATE productos SET exento = 0;
+
+/* Mover datos SysAdmin (compras) */
+INSERT compras(id,fecha,proveedor_id,documento,subtotal,iva,total,pago,created_at)
+SELECT codigo as id, fecha, proveedor as proveedor_id, 0 as documento,0.00 as subtotal,0.0 as iva,0.00 as total,0 as pago,current_timestamp() as created_at
+FROM biosumipowerusco_BSPCntrl.compras
+
+/* Mover datos SysAdmin (compras_detalles) */
+INSERT INTO adminv.compras_detalles(id,compra_id,producto_id,lote,vence,cantidad,costo,inventario, created_at)
+SELECT biosumipowerusco_BSPCntrl.compras_detalles.id, biosumipowerusco_BSPCntrl.compras_detalles.codigo AS compra_id, biosumipowerusco_BSPCntrl.compras_detalles.producto AS producto_id, biosumipowerusco_BSPCntrl.compras_detalles.lote, biosumipowerusco_BSPCntrl.compras_detalles.vence, biosumipowerusco_BSPCntrl.compras_detalles.cantidad, biosumipowerusco_BSPCntrl.compras_detalles.costo, biosumipowerusco_BSPCntrl.compras_detalles.toinv AS inventario, CURRENT_TIMESTAMP() AS created_at
+FROM biosumipowerusco_BSPCntrl.compras_detalles
+
+/* Actualiza subtotal compras */
+UPDATE compras,
+(
+SELECT compra_id, SUM( (cantidad * costo) ) AS subtotal
+FROM compras_detalles
+GROUP BY compra_id
+) AS detalles
+SET compras.subtotal = detalles.subtotal WHERE compras.id = detalles.compra_id;
+UPDATE compras SET iva = (subtotal * 0.12) where YEAR(fecha) = '2018';
+UPDATE compras SET total = (subtotal + iva) where YEAR(fecha) = '2018';

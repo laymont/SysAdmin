@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('auth');
+      $this->middleware('auth:web');
     }
 
     /**
@@ -24,7 +25,6 @@ class HomeController extends Controller
     public function index(Request $request)
     {
       $request->user()->authorizeRoles(['user', 'admin','superuser']);
-
       return view('home');
     }
 

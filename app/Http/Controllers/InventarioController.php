@@ -14,7 +14,7 @@ class InventarioController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('auth');
+      $this->middleware('auth:web');
     }
 
     /**
@@ -24,7 +24,9 @@ class InventarioController extends Controller
      */
     public function index()
     {
-      $inventarios = Inventario::with('producto:id,nombre')->get();
+      $inventarios = Inventario::with('producto:id,nombre')
+      ->where('cantidad','>',0)
+      ->get();
       return view('inventarios.index', compact('inventarios'));
     }
 

@@ -2,21 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Factura;
+use App\Contabplan;
 use Illuminate\Http\Request;
 
-class FacturaController extends Controller
+class ContabplanController extends Controller
 {
-  /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-      $this->middleware('auth:web');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -51,10 +41,10 @@ class FacturaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Factura  $factura
+     * @param  \App\Contabplan  $contabplan
      * @return \Illuminate\Http\Response
      */
-    public function show(Factura $factura)
+    public function show(Contabplan $contabplan)
     {
         //
     }
@@ -62,10 +52,10 @@ class FacturaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Factura  $factura
+     * @param  \App\Contabplan  $contabplan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Factura $factura)
+    public function edit(Contabplan $contabplan)
     {
         //
     }
@@ -74,10 +64,10 @@ class FacturaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Factura  $factura
+     * @param  \App\Contabplan  $contabplan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Factura $factura)
+    public function update(Request $request, Contabplan $contabplan)
     {
         //
     }
@@ -85,10 +75,10 @@ class FacturaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Factura  $factura
+     * @param  \App\Contabplan  $contabplan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Factura $factura)
+    public function destroy(Contabplan $contabplan)
     {
         //
     }

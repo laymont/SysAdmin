@@ -15,7 +15,7 @@ class ModClientesTable extends Migration
     {
       Schema::table('clientes', function (Blueprint $table) {
         $table->tinyInteger('isrl')->nullable()->after('nombre');
-        $table->enum('retiene', [0,1,2])->after('nombre');
+        $table->enum('retiene', [0,1,2])->default(0)->after('nombre');
       });
     }
 

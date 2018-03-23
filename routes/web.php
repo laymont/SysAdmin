@@ -12,14 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+  return view('welcome');
 });
 
 Auth::routes();
 
+/* Users */
 Route::resource('/usuarios','UserController');
 Route::resource('/usuarios/roles','RoleController');
 
+/* Home */
 Route::get('/home', 'HomeController@index')->name('home');
 /* Clientes */
 Route::resource('/clientes','ClienteController');
@@ -40,12 +42,12 @@ Route::resource('compras_detalles','CompraDetalleController');
 /* Inventarios */
 Route::get('/inventarios','InventarioController@index')->name('inventarios.index');
 Route::post('/inventarios', 'InventarioController@store')->name('inventarios.store');
-
 /* Lista de Precios */
 Route::get('/inventarios/precios','AdminController@listaprecios')->name('inventarios.precios');
 
 /* Admin */
 Route::get('toinv/{compra_id}','AdminController@toinv')->name('toinv');
+Route::get('admins/ctapagar/index','AdminController@ctasPagarTotal')->name('ctasxpagar');
 
 /* Servidores */
 Route::resource('/servidores','ServidoreController');

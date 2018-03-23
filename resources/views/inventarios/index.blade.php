@@ -14,7 +14,7 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       @if ($inventarios->count() > 0)
-      <table id="inventarios" class="table table-bordered table-striped datatables">
+      <table id="inventarios" class="table table-bordered table-striped datatables" cellspacing="0" data-page-length="25">
         <caption>Inventarios</caption>
         <thead>
           <tr>
@@ -35,7 +35,7 @@
           @foreach ($inventarios as $element)
           <tr>
             <td> {{ $element->compra_id }}</td>
-            <td> {{ $element->producto->nombre }}</td>
+            <td> {{ @$element->producto->nombre }}</td>
             <td class="text-center"> {{ $element->lote }}</td>
             <td class="text-center"> {{ $element->vence }}</td>
             <td class="text-center"> {{ $element->cantidad }}</td>
@@ -70,6 +70,7 @@
   $(document).ready(function(){
     oTable = $('#inventarios').DataTable({
       dom: '<"toolbar">Bfrtip',
+      "order": [[ 1, "asc" ]],
       buttons: [
       'pageLength', 'excel', 'pdf',
       {

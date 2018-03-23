@@ -50,9 +50,9 @@ table tbody tr.even:hover, table tbody tr.odd:hover  { background-color: #ECFFB3
               <td>{{ $element->fecha }}</td>
               <td>{{ @$element->proveedor->nombre }}</td>
               <td>{{ $element->documento }}</td>
-              <td class="moneda">Bs. {{ number_format($element->subtotal,2,",",".") }}</td>
-              <td class="moneda">Bs. {{ number_format($element->iva,2,",",".") }}</td>
-              <td class="moneda">Bs. {{ number_format($element->total,2,",",".") }}</td>
+              <td class="moneda">{{ number_format($element->subtotal,2,",",".") }}</td>
+              <td class="moneda">{{ number_format($element->iva,2,",",".") }}</td>
+              <td class="moneda">{{ number_format($element->total,2,",",".") }}</td>
               <td>{{ $element->pago }}</td>
               <td>
                 <a class="btn btn-sm btn-primary" href="{{ route('toinv',['compra_id'=>$element->id]) }}" title="Cargar Inventarioo"> <i class="fas fa-sign-in-alt"></i></a>

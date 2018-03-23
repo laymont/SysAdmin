@@ -110,8 +110,8 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
                 <li class="dropdown-divider"></li>
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Productos</a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ route('productos.create') }}"> Nuevo</a></li>
                     <li><a class="dropdown-item" href="{{ url('/productos') }}"> Listado</a></li>
+                    <li><a class="dropdown-item" href="{{ route('productos.create') }}"> Nuevo</a></li>
                   </ul>
                 </li>
               </ul>
@@ -151,25 +151,23 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#">Admin</a>
               <ul class="dropdown-menu">
-                {{-- Cuentas --}}
-                <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Cuentas</a>
+                <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Bancos</a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#"> Por Pagar</a></li>
-                    <li><a class="dropdown-item" href="#"> Por Cobrar</a></li>
+                    <li><a class="dropdown-item" href="#">Cuentas</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown-divider"></li>
+                {{-- Cuentas --}}
+                <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Cuentas por</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ url('admins/ctapagar/index') }}"> Pagar</a></li>
+                    <li><a class="dropdown-item" href="#"> Cobrar</a></li>
                   </ul>
                 </li>
                 {{-- Usuarios --}}
-
-                <li class="dropdown-divider"></li>
-                <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Usuarios</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ route('usuarios.index') }}"> Listado</a></li>
-                    <li><a class="dropdown-item" href="#">Nuevo</a></li>
-                    <li class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ route('roles.index') }}">Roles</a></li>
-                  </ul>
-                </li>
-
+                @if (!Auth::user()->hasRole('user'))
+                <a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios </a>
+                @endif
                 <li class="dropdown-divider"></li>
                 {{-- Servidores --}}
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Servidores</a>
@@ -292,7 +290,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 <script>
   var $=jQuery.noConflict();
   $(document).ready(function(){
-    console.log('jQuery run');
+    console.log('jQuery run ');
   });
 
   $(function () {
