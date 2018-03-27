@@ -117,6 +117,13 @@ class CompraController extends Controller
         return redirect('/compras');
     }
 
+    public function anular(Request $request, Compra $compra)
+    {
+      $compra->update(['nula' => 1]);
+      alert()->success('Operacion exitosa','Compra Anulada')->autoclose('2000');
+      return redirect('compras');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

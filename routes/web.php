@@ -19,7 +19,21 @@ Auth::routes();
 
 /* Users */
 Route::resource('/usuarios','UserController');
-Route::resource('/usuarios/roles','RoleController');
+Route::resource('/roles','RoleController');
+
+Route::get('setUser/{idUser}', function($idUser) {
+  $setUser = \App\Role_user::where('user_id','=', $idUser);
+  $setUser->update(['role_id' => 3]);
+  alert()->success('Operación exitosa', 'Usuario actualizado')->autoclose('3000');
+  return redirect('usuarios');
+})->name('setUser');
+
+Route::get('setSuper/{idUser}', function($idUser) {
+  $setSuper = \App\Role_user::where('user_id','=', $idUser);
+  $setSuper->update(['role_id' => 2]);
+  alert()->success('Operación exitosa', 'Usuario actualizado')->autoclose('3000');
+  return redirect('usuarios');
+})->name('setSuper');
 
 /* Home */
 Route::get('/home', 'HomeController@index')->name('home');
@@ -34,9 +48,12 @@ Route::resource('/departamentos','DepartamentoController');
 Route::resource('/marcas','MarcaController');
 // Productos
 Route::resource('/productos','ProductoController');
+
 /* Compras */
 Route::post('/compras/showall','CompraController@showall')->name('compras.showall');
+Route::put('/compras/anular/{compra}','CompraController@anular')->name('compras.anular');
 Route::resource('/compras','CompraController');
+
 // Detalles
 Route::resource('compras_detalles','CompraDetalleController');
 /* Inventarios */
@@ -47,8 +64,17 @@ Route::get('/inventarios/precios','AdminController@listaprecios')->name('inventa
 
 /* Admin */
 Route::get('toinv/{compra_id}','AdminController@toinv')->name('toinv');
-Route::get('admins/ctapagar/index','AdminController@ctasPagarTotal')->name('ctasxpagar');
+Route::resource('/bancos','BancoController');
+
+Route::get('/admins/ctapagar/','CtapagarController@index')->name('admins.ctapagar.index');
+Route::get('/admins/ctapagar/{compra}/pagar','CtapagarController@pagarCta')->name('admins.ctapagar.pagar');
+Route::get('/admins/ctapagar/{id}/pagarcomplete','CtapagarController@completeCtapagar')->name('admins.ctapagar.pagarcomplete');
 
 /* Servidores */
 Route::resource('/servidores','ServidoreController');
 
+/* Old Version */
+Route::get('test', function() {
+  $clientesOLD = \App\ClienteOld::all();
+  dd($clientesOLD);
+})->name('test');

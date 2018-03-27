@@ -65,4 +65,16 @@ class User extends Authenticatable
     {
       return $this->belongsToMany('App\Role')->withTimestamps();
     }
+
+    /**
+     * User has many Role_user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function role_user()
+    {
+      // hasMany(RelatedModel, foreignKeyOnRelatedModel = user_id, localKey = id)
+      return $this->hasMany(Role_user::class);
+    }
+
   }

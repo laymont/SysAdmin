@@ -46,3 +46,19 @@ GROUP BY compra_id
 SET compras.subtotal = detalles.subtotal WHERE compras.id = detalles.compra_id;
 UPDATE compras SET iva = (subtotal * 0.12) where YEAR(fecha) = '2018';
 UPDATE compras SET total = (subtotal + iva) where YEAR(fecha) = '2018';
+
+/* Insertar Compras en ctaspagar */
+insert into ctapagars(id,fecha,referencia,tipo,observacion,monto,abono,fecha_abono,banco_id,movimiento,pagada)
+select 
+	id,
+	fecha,
+	CONCAT('C-',LPAD(id,10,0),'-',date_format(fecha,'%Y%m%d'),'P',proveedor_id,'-',documento) as referencia,
+	('Proveedores') as tipo,
+	(null) as observacion,
+	total as monto,
+	('No') as abono,
+	fecha as fecha_abono,
+	(1) as banco_id,
+	('Transferencia') as movimiento,
+	('Si') as pagada
+from compras;

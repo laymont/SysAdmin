@@ -16,11 +16,12 @@ class CreateBancosTable extends Migration
         Schema::create('bancos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('cuenta');
-            $table->decimal('saldo', 20,2)->default(0.00);
+            $table->string('codigo', 4);
+            $table->string('cuenta', 20);
+            $table->enum('tipo', ['ahorro','corriente']);
+            $table->decimal('saldo', 20, 2)->default(0.0);
             $table->timestamps();
             $table->softDeletes();
-            $table->index('cuenta');
         });
     }
 

@@ -32,25 +32,39 @@
         <caption>Ctas x Pagar</caption>
         <thead>
           <tr>
-            <th>Documento</th>
+            <th>Id</th>
             <th>Fecha</th>
+            <th>Referencia</th>
             <th>Acreedor</th>
-            <th>Subtotal</th>
-            <th>I.V.A.</th>
-            <th>Total</th>
-            <th>Acciones</th>
+            {{-- <th>Observación</th> --}}
+            <th>Monto</th>
+            <th>Abono</th>
+            <th>Fecha/Pago/Abono</th>
+            <th>Banco</th>
+            <th>Movimiento</th>
+            <th>Pagada</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($ctapagar as $element)
           <tr>
-            <td>{{ $element->documento }}</td>
-            <td>{{ $element->fecha }}</td>
-            <td>{{ $element->proveedor->nombre }}</td>
-            <td class="moneda">{{ $element->subtotal }}</td>
-            <td class="moneda">{{ $element->iva }}</td>
-            <td class="moneda">{{ $element->total }}</td>
-            <td></td>
+            <td>{{ $element->id }}</td>
+            <td class="text-center">{{ $element->fecha }}</td>
+            <td>{{ $element->referencia }}</td>
+            <td>{{ $element->tipo }}</td>
+            {{-- <td>{{ $element->observacion }}</td> --}}
+            <td class="moneda">{{ number_format($element->monto,2,",",".") }}</td>
+            <td class="text-center">{{ $element->abono }}</td>
+            <td class="text-center">{{ $element->fecha_abono }}</td>
+            <td>{{ $element->banco->nombre }}</td>
+            <td>{{ $element->movimiento }}</td>
+            <td class="text-center">
+              @if ($element->pagada == 'Si')
+              <a class="btn btn-sm btn-success" href="#" data-toggle="tooltip" data-placement="top" title="Pagar/Abonar"><i class="fas fa-check-circle"></i></a>
+              @else
+              <a class="btn btn-sm btn-warning" href="#" data-toggle="tooltip" data-placement="top" title="Pagar/Abonar"><i class="far fa-money-bill-alt"></i></a>
+              @endif
+            </td>
           </tr>
           @endforeach
         </tbody>

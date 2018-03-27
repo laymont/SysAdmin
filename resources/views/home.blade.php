@@ -23,7 +23,6 @@
           Estimado: 2018-05-14
         </div>
       </div>
-
     </div>
   </div>
 </div>

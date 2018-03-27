@@ -153,17 +153,18 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
               <ul class="dropdown-menu">
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Bancos</a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Cuentas</a></li>
+                    <li><a class="dropdown-item" href="{{ route('bancos.index') }}">Cuentas</a></li>
                   </ul>
                 </li>
                 <li class="dropdown-divider"></li>
                 {{-- Cuentas --}}
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Cuentas por</a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ url('admins/ctapagar/index') }}"> Pagar</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admins.ctapagar.index') }}"> Pagar</a></li>
                     <li><a class="dropdown-item" href="#"> Cobrar</a></li>
                   </ul>
                 </li>
+                <li class="dropdown-divider"></li>
                 {{-- Usuarios --}}
                 @if (!Auth::user()->hasRole('user'))
                 <a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios </a>
