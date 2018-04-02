@@ -28,6 +28,7 @@
   input[type=number] { text-align: right; -moz-appearance: textfield; }
   input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; /* Removes leftover margin */ }
+.number { text-align: right; }
 .moneda { text-align: right;  }
 .moneda:before { content: 'Bs. '; }
 .porcentaje:after { content: '%'; }
@@ -139,7 +140,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
               <a class="nav-link dropdown-toggle" href="#">Ventas</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Ventas</a></li>
-                <li><a class="dropdown-item" href="#">Facturar</a></li>
+                <li><a class="dropdown-item" href="{{ route('facturas.index') }}">Facturar</a></li>
                 <li><a class="dropdown-item" href="#">Reimprimir</a></li>
                 <li class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{{ route('inventarios.precios') }}">Lista de Precios</a></li>
@@ -174,7 +175,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
                 <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Servidores</a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{{ route('servidores.index') }}"> Listado</a></li>
-                    <li><a class="dropdown-item" href="#">Nuevo</a></li>
+                    <li><a class="dropdown-item" href="{{ route('servidores.create') }}">Nuevo</a></li>
                   </ul>
                 </li>
               </ul>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Servidore;
 use Illuminate\Http\Request;
+use Alert;
+use Validator;
+use Illuminate\Validation\Rule;
 
 class ServidoreController extends Controller
 {
@@ -12,10 +15,10 @@ class ServidoreController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-      $this->middleware('auth:web');
-    }
+  public function __construct()
+  {
+    $this->middleware('auth:web');
+  }
 
     /**
      * Display a listing of the resource.
@@ -24,7 +27,8 @@ class ServidoreController extends Controller
      */
     public function index()
     {
-      return view('servidores.index');
+      $servidores = Servidore::all();
+      return view('servidores.index', compact('servidores'));
     }
 
     /**
@@ -34,7 +38,7 @@ class ServidoreController extends Controller
      */
     public function create()
     {
-        //
+      return view('servidores.create');
     }
 
     /**
@@ -45,7 +49,27 @@ class ServidoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $messages = [
+        'unique' => 'Identificación en uso.',
+      ];
+
+      $validator = Validator::make($request->all(), [
+        'tipo' => 'required',
+        'identificacion' => 'required|unique:servidores,identificacion',
+        'nombre' => 'required',
+        'porcentaje' => 'required',
+        'monto' => 'required',
+      ], $messages);
+
+      if ($validator->fails()) {
+        return redirect('servidores')
+        ->withErrors($validator);
+      }
+
+      $servidor = Servidore::create($request->except('_token'));
+      alert()->success('Operacion exitosa','Registro creado');
+      return redirect('servidores');
+
     }
 
     /**
@@ -67,7 +91,8 @@ class ServidoreController extends Controller
      */
     public function edit(Servidore $servidore)
     {
-        //
+      $servidor = Servidore::findOrFail($servidore->id);
+      return view('servidores.edit', compact('servidor'));
     }
 
     /**
@@ -79,8 +104,34 @@ class ServidoreController extends Controller
      */
     public function update(Request $request, Servidore $servidore)
     {
-        //
+     $messages = [
+      'unique' => 'Identificación en uso.',
+    ];
+
+    $validator = Validator::make($request->all(), [
+      'tipo' => 'required',
+      'identificacion' => 'required|unique:servidores,identificacion,' . $servidore->id,
+      'nombre' => 'required',
+      'porcentaje' => 'required',
+      'monto' => 'required',
+    ], $messages);
+
+    if ($validator->fails()) {
+      return redirect('servidores')
+      ->withErrors($validator);
     }
+
+    $servidor = Servidore::findOrFail($servidore->id);
+    $servidor->update($request->except('_token','_method'));
+    // dd( count($servidor->getChanges()) );
+    if ( count($servidor->getChanges()) > 0 ) {
+      alert()->success('Operacion exitosa','Registro Actualizado');
+      return redirect('servidores');
+    }else {
+      alert()->warning('Sin acciones','No se ejecuto ninguna accion sobre los datos');
+      return redirect('servidores');
+    }
+  }
 
     /**
      * Remove the specified resource from storage.
@@ -92,4 +143,4 @@ class ServidoreController extends Controller
     {
         //
     }
-}
+  }

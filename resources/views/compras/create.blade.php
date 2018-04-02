@@ -56,7 +56,14 @@
         <small id="totalHelp" class="form-text text-muted">Total de la compra.</small>
       </div>
       {{-- pago --}}
-      {!! Form::hidden('pago', 0, []) !!}
+      <div class="form-group {{ $errors->has('pago') ? 'has-error' : '' }}">
+        <div class="form-inline">
+          {!! Form::label('pago', 'Pago', ['class'=>'control-label']) !!}
+          {!! Form::checkbox('pago', 1, true, ['class'=>'form-control col-md-1']) !!}
+        </div>
+        {!! $errors->first('pago', '<p class="help-block text-danger">:message</p>') !!}
+        <small id="pagoHelp" class="form-text text-muted">La compra esta paga por defecto, no tilde si no esta paga.</small>
+      </div>
       {{-- submit --}}
       <div class="form-group">
         {{ Form::button('<i class="fas fa-save fa-2x"></i>', ['type' => 'submit', 'class' => 'btn btn-lg btn-success'] )  }}

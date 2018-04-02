@@ -37,7 +37,7 @@ class Cliente extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function factura()
+    public function facturas()
     {
       // hasMany(RelatedModel, foreignKeyOnRelatedModel = cliente_id, localKey = id)
       return $this->hasMany(Factura::class);

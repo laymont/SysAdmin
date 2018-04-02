@@ -26,10 +26,25 @@ SELECT codigo AS id, dpto AS departamento_id, producto AS nombre, marca AS marca
 FROM biosumipowerusco_BSPCntrl.productos
 UPDATE productos SET exento = 0;
 
+/* Mover datos SysAdmin (productos) */
+INSERT INTO adminv.productos(id,departamento_id,nombre,marca_id,presentacion,descripcion,exento,servicio,`min`,`max`,created_at)
+SELECT codigo as id, dpto as departamento_id, producto as nombre, marca as marca_id, presentacion, descripcion, if(excento = 'N',0,1) as exento, 0 as servicio, `min`, `max`, current_timestamp() as created_at
+FROM biosumipowerusco_BSPCntrl.productos
+
 /* Mover datos SysAdmin (compras) */
 INSERT compras(id,fecha,proveedor_id,documento,subtotal,iva,total,pago,created_at)
 SELECT codigo as id, fecha, proveedor as proveedor_id, 0 as documento,0.00 as subtotal,0.0 as iva,0.00 as total,0 as pago,current_timestamp() as created_at
 FROM biosumipowerusco_BSPCntrl.compras
+
+/* Actualizar compras NULAS */
+update compras set nula = 1, pago = 0 where subtotal = 0;
+
+/* Actualizar compras antes del 29-9-2017 */
+update compras set iva = subtotal * 0.12, total = subtotal + (subtotal * 0.12) where fecha <'2017-09-29' and nula is null;
+update compras
+  set iva = if(subtotal <= 2000000,subtotal * 0.09,subtotal * 0.07),
+    total = subtotal + if(subtotal <= 2000000,subtotal * 0.09,subtotal * 0.07)
+  where fecha >='2017-09-29' and YEAR(fecha) = '2017' and pago = 1;
 
 /* Mover datos SysAdmin (compras_detalles) */
 INSERT INTO adminv.compras_detalles(id,compra_id,producto_id,lote,vence,cantidad,costo,inventario, created_at)
@@ -47,9 +62,36 @@ SET compras.subtotal = detalles.subtotal WHERE compras.id = detalles.compra_id;
 UPDATE compras SET iva = (subtotal * 0.12) where YEAR(fecha) = '2018';
 UPDATE compras SET total = (subtotal + iva) where YEAR(fecha) = '2018';
 
+/* inventarios */
+INSERT INTO adminv.inventarios(id,compra_id,producto_id,lote,vence,cantidad,costo,base1,base2,base3,ubicacion)
+SELECT id, compra as compra_id, producto as producto_id, lote, vence, cantidad, costo, 0.0 as base1, 0.0 as base2, 0.0 as base3, ubicacion
+FROM biosumipowerusco_BSPCntrl.inventario
+
+/* Actualizar precios inventario */
+UPDATE adminv.inventarios a
+LEFT JOIN biosumipowerusco_BSPCntrl.productos b ON
+ a.producto_id = b.codigo SET
+  a.base1 = b.base, a.base2 = b.base2, a.base3 = b.base3
+WHERE a.producto_id = b.codigo
+
+/* Move facturas */
+INSERT INTO adminv.facturas(id,fecha,cliente_id,servidor_id,tpago,anulada,pagada)
+select numero as id, fecha, cliente as cliente_id, vendedor as servidor_id, tpago, anulada, pagada
+from biosumipowerusco_BSPCntrl.facturas;
+
+/* Move Factura_detalles */
+insert into factura_detalles(id,factura_id,inventario_id,cantidad,precio)
+select id, factura as factura_id, item as inventario_id, cantidad, precio
+from biosumipowerusco_BSPCntrl.facont
+
+/* Servidores */
+insert into servidores(id,tipo,identificacion,nombre,porcentaje,monto)
+select codigo as id, if(tipo = 'Vendedor',1,2) as tipo, identificacion, nombre, porcentaje, monto
+from biosumipowerusco_BSPCntrl.servidores
+
 /* Insertar Compras en ctaspagar */
 insert into ctapagars(id,fecha,referencia,tipo,observacion,monto,abono,fecha_abono,banco_id,movimiento,pagada)
-select 
+select
 	id,
 	fecha,
 	CONCAT('C-',LPAD(id,10,0),'-',date_format(fecha,'%Y%m%d'),'P',proveedor_id,'-',documento) as referencia,

@@ -45,8 +45,8 @@
             <td class="moneda"> {{ number_format( (($element->base2 + 1) * $element->costo),2,",","." ) }}</td>
             <td class="moneda"> {{ number_format( (($element->base3 + 1) * $element->costo),2,",","." ) }}</td>
             <td class="text-center"> {{ $element->ubicacion }}</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="#" title="Ajuste"><i class="fas fa-cog"></i></a>
+            <td class="text-center">
+              <a class="btn btn-sm btn-primary" href="#" data-toggle="tooltip" data-placement="top" title="Historial"><i class="fas fa-history"></i></a>
             </td>
           </tr>
           @endforeach

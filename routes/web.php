@@ -69,6 +69,14 @@ Route::resource('/bancos','BancoController');
 Route::get('/admins/ctapagar/','CtapagarController@index')->name('admins.ctapagar.index');
 Route::get('/admins/ctapagar/{compra}/pagar','CtapagarController@pagarCta')->name('admins.ctapagar.pagar');
 Route::get('/admins/ctapagar/{id}/pagarcomplete','CtapagarController@completeCtapagar')->name('admins.ctapagar.pagarcomplete');
+Route::patch('/admins/ctapagar/{compra}/finishfull','CtapagarController@finishCtapagar')->name('admins.ctapagar.finishfull');
+
+/* Factutas */
+Route::resource('admins/facturas','FacturaController');
+/*
+Route::get('/admins/facturas','FacturaController@index')->name('admins.facturas.index');
+Route::get('/admins/facturas/{factura}','FacturaController@show')->name('admins.facturas.show');
+*/
 
 /* Servidores */
 Route::resource('/servidores','ServidoreController');
@@ -78,3 +86,5 @@ Route::get('test', function() {
   $clientesOLD = \App\ClienteOld::all();
   dd($clientesOLD);
 })->name('test');
+
+

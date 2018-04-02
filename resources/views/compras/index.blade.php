@@ -4,6 +4,7 @@
 table tbody tr.even:hover, table tbody tr.odd:hover  { background-color: #ECFFB3; }
 </style>
 @endsection
+
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
@@ -65,13 +66,14 @@ table tbody tr.even:hover, table tbody tr.odd:hover  { background-color: #ECFFB3
                 <td class="moneda">{{ number_format($element->iva,2,",",".") }}</td>
                 <td class="moneda">{{ number_format($element->total,2,",",".") }}</td>
                 <td class="text-center">
-                  @if ($element->pago == 0)
+                  @if ($element->pago == 0 && $element->nula == NULL)
                   <a class="btn btn-sm btn-warning" href="{{ url('admins/ctapagar/'.$element->id.'/pagar') }}" data-toggle="tooltip" data-placement="top" title="Pago Pendiente"> <i class="fas fa-shopping-cart"></i></a>
                   @else
                   <span class="text-success"><i class="fas fa-check-square"></i></span>
                   @endif
                 </td>
                 <td>
+                  @if ($element->nula == NULL)
                   <a class="btn btn-sm btn-primary" href="{{ route('toinv',['compra_id'=>$element->id]) }}" data-toggle="tooltip" data-placement="top" title="Cargar Inventarioo"> <i class="fas fa-sign-in-alt"></i></a>
                   <a class="btn btn-sm btn-success" href="{{ route('compras_detalles.show',['compras_detalles'=>$element->id]) }}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la compra"><i class="fas fa-eye"></i></a>
                   <a class="btn btn-sm btn-warning" href="{{ route('compras_detalles.edit',['compras_detalles'=>$element->id]) }}" data-toggle="tooltip" data-placement="top" title="Editar detalles de la compra"><i class="fas fa-cart-arrow-down"></i></a>
@@ -84,6 +86,7 @@ table tbody tr.even:hover, table tbody tr.odd:hover  { background-color: #ECFFB3
                   {!! Form::open(['method'=>'DELETE','url' => ['compras', $element->id],'style' => 'display:inline','onsubmit' => 'return confirm("Realmente desea eliminar este Registro");']) !!}
                   {{ Form::button('<i class="fa fa-trash"></i>', ['title'=>'Eliminar', 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'type' => 'submit', 'class' => 'btn btn-danger btn-sm'] )  }}
                   {!! Form::close() !!}
+                  @endif
                 </td>
               </tr>
               @endforeach

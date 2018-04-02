@@ -53,5 +53,16 @@ class Inventario extends Model
     // belongsTo(RelatedModel, foreignKey = producto_id, keyOnRelatedModel = id)
     return $this->belongsTo(Producto::class);
   }
+
+  /**
+   * Inventario has many Factura_detalles.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function factura_detalles()
+  {
+    // hasMany(RelatedModel, foreignKeyOnRelatedModel = inventario_id, localKey = id)
+    return $this->hasMany(Factura_detalle::class);
+  }
     //
 }

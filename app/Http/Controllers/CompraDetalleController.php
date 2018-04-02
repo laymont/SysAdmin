@@ -63,7 +63,7 @@ class CompraDetalleController extends Controller
      */
     public function store(Request $request)
     {
-      // dd($request);
+
       $validar = $request->validate([
         'compra_id' => 'required',
         'producto_id' => 'required',
@@ -72,20 +72,22 @@ class CompraDetalleController extends Controller
         'cantidad' => 'required|min:1',
         'costo' => 'required'
       ]);
-      if ( Session::get('finish') == false ) {
 
-        $detalles = Compra_detalle::create($request->except('_token'));
-        alert()->success('Operacion exitosa','Producto agregado');
-        $request->session()->flash('status', 'Producto agregado!');
-        return redirect()->route('compras_detalles.create');
+      // dd($request->all());
 
-      }else if ( Session::get('finish') == true ) {
+      /*$detalles = new Compra_detalle;
+      $detalles->compra_id = $request->compra_id;
+      $detalles->producto_id = $request->producto_id;
+      $detalles->lote = $request->lote;
+      $detalles->vence = $request->vence;
+      $detalles->cantidad = $request->cantidad;
+      $detalles->costo = $request->costo;
+      $detalles->save();*/
 
-        $detalles = Compra_detalle::create($request->except('_token'));
-        alert()->success('Operacion exitosa','Registro de compra finalizado');
-        return redirect()->route('compras_detalles.index');
-
-      }
+      $detalles = Compra_detalle::create($request->except('_token'));
+      alert()->success('Operacion exitosa','Producto agregado');
+      $request->session()->flash('status', 'Producto agregado!');
+      return redirect()->route('compras_detalles.create');
     }
 
     /**

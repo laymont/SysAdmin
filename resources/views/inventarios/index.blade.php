@@ -44,8 +44,10 @@
             <td class="text-center"> {{ $element->base2 * 100 }}%</td>
             <td class="text-center"> {{ $element->base3 * 100 }}%</td> --}}
             <td class="text-center"> {{ $element->ubicacion }}</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="#" title="Ajuste"><i class="fas fa-cog"></i></a>
+            <td class="text-center">
+              <a class="btn btn-sm btn-primary" href="#" data-toggle="tooltip" data-placement="top" title="Ver"> <i class="fas fa-eye"></i></a>
+              <a class="btn btn-sm btn-warning" href="#" data-toggle="tooltip" data-placement="top" title="Ajuste"><i class="fas fa-edit"></i></a>
+              <a class="btn btn-sm btn-primary" href="#" data-toggle="tooltip" data-placement="top" title="Ajustar"><i class="fas fa-cog"></i></a>
             </td>
           </tr>
           @endforeach

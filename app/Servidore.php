@@ -22,4 +22,15 @@ class Servidore extends Model
   protected $fillable = ['tipo','identificacion','nombre','porcentaje','monto'];
   protected $guarded = ['id'];
   protected $dates = ['deleted_at'];
+
+  /**
+   * Servidore has many Factura.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function facturas()
+  {
+    // hasMany(RelatedModel, foreignKeyOnRelatedModel = servidore_id, localKey = id)
+    return $this->hasMany(Factura::class);
+  }
 }

@@ -19,7 +19,7 @@ class Factura extends Model
    *
    * @var array
    */
-  protected $fillable = ['fecha','cliente_id','servidor_id','tpago','anulada','pagada'];
+  protected $fillable = ['fecha','cliente_id','servidore_id','tpago','anulada','pagada'];
   protected $guarde = ['id'];
   protected $dates = ['deleted_at'];
 
@@ -32,5 +32,27 @@ class Factura extends Model
   {
     // belongsTo(RelatedModel, foreignKey = cliente_id, keyOnRelatedModel = id)
     return $this->belongsTo(Cliente::class);
+  }
+
+  /**
+   * Factura belongs to Servidore.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function servidore()
+  {
+    // belongsTo(RelatedModel, foreignKey = servidore_id, keyOnRelatedModel = id)
+    return $this->belongsTo(Servidore::class,'servidore_id');
+  }
+
+  /**
+   * Factura has many Factura_det.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function factura_detalles()
+  {
+    // hasMany(RelatedModel, foreignKeyOnRelatedModel = factura_id, localKey = id)
+    return $this->hasMany(Factura_detalle::class);
   }
 }

@@ -25,7 +25,7 @@ class CtapagarController extends Controller
      */
     public function index()
     {
-      $ctapagar = Ctapagar::all();
+      $ctapagar = Ctapagar::where('pagada','No')->get();
       return view('admins.ctapagar.index', compact('ctapagar'));
     }
 
@@ -67,7 +67,22 @@ class CtapagarController extends Controller
     public function completeCtapagar($id)
     {
       $ctapagar = Ctapagar::findOrFail($id);
-      return view('admins.ctapagar.pagarcomplete', compact('ctapagar'));
+      $bancos = \App\Banco::pluck('nombre','id');
+      return view('admins.ctapagar.pagarcomplete', compact('ctapagar','bancos'));
+    }
+
+    public function finishCtapagar(Request $request, $id)
+    {
+      $ctapagar = Ctapagar::findOrFail($id);
+      $ctapagar->update($request->except(['_method','_token']));
+      if ( substr($ctapagar->referencia,0,1) == 'C') {
+        /* Pagar Compra */
+        $idCompra = (int) substr($ctapagar->referencia,2,10);
+        $compra = \App\Compra::findOrFail($idCompra);
+        $compra->update(['pago' => 1]);
+      }
+      alert()->success('Operacion exitosa','Cta. Registada');
+      return redirect('/compras');
     }
 
     /**

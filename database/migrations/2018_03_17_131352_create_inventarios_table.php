@@ -21,9 +21,9 @@ class CreateInventariosTable extends Migration
             $table->date('vence')->nullable();
             $table->integer('cantidad');
             $table->decimal('costo',20,2);
-            $table->decimal('base1',2,2);
-            $table->decimal('base2',2,2);
-            $table->decimal('base3',2,2);
+            $table->decimal('base1',20,2);
+            $table->decimal('base2',20,2);
+            $table->decimal('base3',20,2);
             $table->tinyInteger('ubicacion')->nullable();
             $table->timestamps();
             $table->softDeletes();
