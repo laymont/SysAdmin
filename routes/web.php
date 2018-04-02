@@ -81,6 +81,21 @@ Route::get('/admins/facturas/{factura}','FacturaController@show')->name('admins.
 /* Servidores */
 Route::resource('/servidores','ServidoreController');
 
+
+/* Utilidades */
+Route::get('direccionCliente/{id}', function($id) {
+  $cliente = \App\Cliente::findOrFail($id);
+  $direccion = $cliente->direccion;
+  return $direccion;
+})->name('direccion.cliente'); //Obtener direccion de cliente para la factura
+
+Route::get('productoPrecio/{id}', function($id) {
+  $inventario = \App\Inventario::findOrFail($id);
+  $precio = $inventario->costo * $inventario->base3;
+  return $precio;
+})->name('producto.precio');
+
+
 /* Old Version */
 Route::get('test', function() {
   $clientesOLD = \App\ClienteOld::all();
